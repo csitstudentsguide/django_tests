@@ -1,0 +1,8 @@
+asgiref==3.8.1
+dj-database-url==0.5.0
+Django==3.2.25
+django-magic==0.5a0
+python-magic==0.4.27
+pytz==2024.2
+sqlparse==0.5.1
+typing_extensions==4.12.2

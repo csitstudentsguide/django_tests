@@ -1,4 +1,16 @@
 from django.db import models
+from django.core.validators import FileExtensionValidator
+from django.core.exceptions import ValidationError
+import magic
+
+ext_validator = FileExtensionValidator(['pdf'])
+
+def validate_file_mimetype(file):
+    accept = ['application/pdf']
+    file_mime_type = magic.from_buffer(file.read(1024), mime=True)
+    print(file_mime_type)
+    if file_mime_type not in accept:
+        raise ValidationError('Unsupported file type')
 
 YEAR = [('I', 'I'), ('II', 'II'), ('III', 'III'), ('IV', 'IV')]
 
@@ -40,7 +52,7 @@ class ExpLists(models.Model):
     exp_no = models.CharField(max_length=50, choices=EXP_NO)
     ay = models.CharField(max_length=50, choices=AY)
     term = models.CharField(max_length=50, choices=TERM)
-    exp_file = models.FileField(upload_to='exp_lists/%Y/%m', blank=False)
+    exp_file = models.FileField(upload_to='exp_lists/%Y/%m', validators=[ext_validator], blank=False)
        
     
     def __str__(self):
